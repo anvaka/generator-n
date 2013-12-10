@@ -70,8 +70,8 @@ function updatePackageJson() {
 
 function createGitHubProject(token) {
   var deferred = Q.defer();
-  var projectName = this.project.name;
-  var description = this.project.description;
+  var projectName = this.packageName;
+  var description = this.packageDescription;
 
   if (!projectName) {
     throw new Error("Project name is missing. Please describe how you get into this situation here: https://github.com/anvaka/generator-n/issues");
