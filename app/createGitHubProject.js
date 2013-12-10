@@ -86,6 +86,8 @@ function createGitHubProject(token) {
     "name": projectName,
     "description": description,
   }, function (err, body, headers) {
+    // TODO: this should be more robust, in case when user revoked access toke
+    // we should offer him way to restore it
     if (err) {
       throw new Error('Failed to create GitHub project. GitHub responed with ' + err);
     } else {
