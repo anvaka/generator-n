@@ -52,8 +52,21 @@ function commitRepository(repoName) {
 }
 
 function updatePackageJson(repoName) {
-  // TODO: implement me. This should add author, repository, bugs
-  // if they are missing in package.json
+  if (!repoName) {
+    this.log.error('GitHub repository name is missing. Please file a bug with steps to reproduce: https://github.com/anvaka/generator-n/issues');
+    return;
+  }
+
+  var packageJSON = require('./packageJson').get();
+  if (packageJSON.repository && packageJSON.repository.url) {
+    return repoName; // Repository information is already present;
+  }
+
+  require('./packageJson').set('repository', {
+    type: 'git',
+    url: 'https://github.com/' + repoName
+  });
+
   return repoName;
 }
 
