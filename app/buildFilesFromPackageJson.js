@@ -1,5 +1,6 @@
 /* This file constructs project tree based on information provided in package.json */
 var fs = require('fs');
+var path = require('path');
 var chalk = require('chalk');
 
 module.exports = function () {
@@ -12,6 +13,7 @@ module.exports = function () {
 
   copyTemplates.bind(this)(packageJson);
   createEntryPoint.bind(this)(packageJson.main);
+  createLicense.bind(this)(packageJson.license);
   createUnitTests.bind(this)(packageJson);
 };
 
@@ -33,8 +35,18 @@ function createEntryPoint(mainFileName) {
 
 function initPackageVariables(packageJson) {
   this.packageName = packageJson.name;
+  this.packageAuthor = packageJson.author || '';
   this.packageLicense = packageJson.license;
   this.packageDescription = packageJson.description;
+}
+
+function createLicense(license) {
+  var licenseTemplate = getLicenseTemplateFromName(license);
+  if (!licenseTemplate) {
+    // We don't have this license template. Ignore.
+    return;
+  }
+  this.template(path.join('license', licenseTemplate), 'LICENSE');
 }
 
 function createUnitTests(packageJson) {
@@ -60,12 +72,20 @@ function createUnitTests(packageJson) {
     });
 
   function handleError(err) {
-    self.log.error('Failed to install dependencies. Exit code: ' + err);
-    done(err);
+    self.log.error('Failed to install test dependencies. You will have to run command manually. Exit code: ' + err);
+    done();
   }
 }
 
 function getDevDependcyFromScriptName(testScript) {
   var framework = testScript.match(/^(tap|mocha|grunt|cake)\b/);
   return framework && framework[1];
+}
+
+function getLicenseTemplateFromName(licenseName) {
+  if (licenseName.match(/\bmit\b/i)) {
+    return 'mit';
+  } else if (licenseName.match(/\bbsd\b/i)) {
+    return licenseName.indexOf('3') >= 0 ? 'bsd3' : 'bsd2';
+  }
 }
