@@ -9,7 +9,7 @@ function Settings(storageFileName) {
   fs.readFile(storageFileName, function (err, data) {
     if (err) return; // no settings file
     try { self._settings = JSON.parse(data); }
-    catch (e) { /* Something is wrong with this file. Ignore it. */}
+    catch (e) { /* Something is wrong with this file. Ignore it. */ }
   });
 }
 

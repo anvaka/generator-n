@@ -2,13 +2,13 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var fs = require('fs');
 
-var GeneratorSettings = require('./settings');
-var settingsFileName = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.yo-n.conf');
 
 var NGenerator = module.exports = function NGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
+
+  var GeneratorSettings = require('./settings');
+  var settingsFileName = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.yo-n.conf');
   this.settings = new GeneratorSettings(settingsFileName);
 };
 

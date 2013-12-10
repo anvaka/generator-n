@@ -2,7 +2,7 @@ var chalk = require('chalk');
 
 module.exports = function () {
   // let's see if we have package.json already:
-  if (require('./readPackageJson')()) {
+  if (require('./packageJson').get()) {
     return;
   }
 
