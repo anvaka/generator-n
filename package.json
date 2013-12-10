@@ -1,0 +1,43 @@
+{
+  "name": "generator-n",
+  "version": "0.0.1",
+  "description": "Minimalistic node package generator",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/anvaka/generator-n",
+  "bugs": "https://github.com/anvaka/generator-n/issues",
+  "author": {
+    "name": "Andrei Kashcha",
+    "email": "anvaka@gmail.com",
+    "url": "https://github.com/anvaka"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anvaka/generator-n.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "~0.14.0",
+    "chalk": "~0.3.0",
+    "octonode": "~0.4.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
