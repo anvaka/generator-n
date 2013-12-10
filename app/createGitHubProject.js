@@ -1,11 +1,15 @@
 var fs = require('fs'),
-    Q = require('q');
+    chalk = require('chalk'),
+    Q = require('q'),
+    spawnCommand;
 
 module.exports = function () {
   if (isGitRepository()) {
     // we already have git folder initialized. Ignore this step.
     return;
   }
+
+  spawnCommand = this.spawnCommand;
 
   var done = this.async();
   var self = this;
@@ -24,9 +28,7 @@ module.exports = function () {
     getToken(self)
       .then(createGitHubProject.bind(self))
       .then(updatePackageJson.bind(self))
-      .then(initGit.bind(self))
-      .then(commit.bind(self))
-      .then(push.bind(self))
+      .then(commitRepository.bind(self))
       .then(function () {
         done();
       }, function (err) {
@@ -36,36 +38,23 @@ module.exports = function () {
   });
 }
 
-function initGit(token) {
-  var deferred = Q.defer();
+function commitRepository(repoName) {
+  if (!repoName) {
+    this.log.error('GitHub repository name is missing. Please file a bug with steps to reproduce: https://github.com/anvaka/generator-n/issues');
+    return;
+  }
 
-  this.log.info('Initializing new git reposotry...');
-  this.spawnCommand('git', ['init'])
-   .on('error', function (err) {j
-     deferred.reject(new Error('Failed to initialize git repository ' + err));
-   })
-   .on('exit', function (err) {
-     if (err) {
-       deferred.reject('git init exited with code ' + err);
-       return;
-     }
-     deferred.resolve(token);
-   });
-
-   return deferred.promise;
+  return runGitCommand('init')
+    .then(function () { return runGitCommand('add', '.'); })
+    .then(function () { return runGitCommand('commit', '-m', 'Initial commit'); })
+    .then(function () { return runGitCommand('remote', 'add', 'origin', 'git@github.com:' + repoName + '.git'); })
+    .then(function () { return runGitCommand('push', '-u', 'origin', 'master'); })
 }
 
-function commit() {
-  // TODO: implement me. This should commit all files
-}
-
-function push() {
-  // TODO: implement me. This should push initial commit to github
-}
-
-function updatePackageJson() {
+function updatePackageJson(repoName) {
   // TODO: implement me. This should add author, repository, bugs
   // if they are missing in package.json
+  return repoName;
 }
 
 function createGitHubProject(token) {
@@ -83,12 +72,12 @@ function createGitHubProject(token) {
   ghme.repo({
     "name": projectName,
     "description": description,
-  }, function (err, response, headers) {
+  }, function (err, body, headers) {
     if (err) {
       throw new Error('Failed to create GitHub project. GitHub responed with ' + err);
     } else {
-      this.log.info('Repository created.');
-      deferred.resolve();
+      this.log.info('Repository ' + body.full_name + ' created.');
+      deferred.resolve(body.full_name);
     }
   }.bind(this));
 
@@ -126,4 +115,24 @@ function isGitRepository() {
     var stats = fs.lstatSync('.git');
     return stats && stats.isDirectory();
   } catch (e) { /* no git folder */ }
+}
+
+function runGitCommand() {
+  var deferred = Q.defer();
+  var commandArguments = Array.prototype.slice.call(arguments);
+
+  console.log(chalk.yellow.bold('git ' + commandArguments.join(' ')));
+
+  spawnCommand('git', commandArguments)
+   .on('error', handleError)
+   .on('exit', function (err) {
+     if (err) { handleError(err); }
+     else { deferred.resolve(); }
+   });
+
+   return deferred.promise;
+
+   function handleError(err) {
+     throw new Error('Failed to run git command: ' + err);
+   }
 }
