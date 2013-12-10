@@ -16,8 +16,8 @@ In fact it will delegate generation work to `npm init` itself, and then will do
 smart initializations, based on your package.json. This includes:
 
 * Initialize GitHub project for your package
-* Create proper `LICENSE` file based on your pacckage.json
-* Include test dependency based on your `scripts/test` in package.json
+* Create proper `LICENSE` file based on your package.json
+* Include test dependency based on your `scripts/test` of package.json
 * Make initial commit to GitHub
 
 ## Trivia
