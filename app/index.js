@@ -41,17 +41,3 @@ NGenerator.prototype.npmInit = function () {
 NGenerator.prototype.buildFilesFromPackage = require('./buildFilesFromPackageJson');
 
 NGenerator.prototype.createGithubProject = require('./createGitHubProject');
-
-NGenerator.prototype.app = function app() {
-//  this.mkdir('app');
-//  this.mkdir('app/templates');
-
-  //this.copy('_package.json', 'package.json');
-};
-
-NGenerator.prototype.projectfiles = function projectfiles() {
-//  this.copy('editorconfig', '.editorconfig');
-//  this.copy('jshintrc', '.jshintrc');
-};
-
-
