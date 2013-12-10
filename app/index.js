@@ -18,7 +18,7 @@ util.inherits(NGenerator, yeoman.generators.Base);
 
 NGenerator.prototype.npmInit = function () {
   // let's see if we have package.json already:
-  if (getPackageJson()) {
+  if (require('./readPackageJson')()) {
     return;
   }
 
@@ -38,7 +38,9 @@ NGenerator.prototype.npmInit = function () {
     }.bind(this));
 };
 
-NGenerator.prototype.createGithubProject = require('./createGitHub');
+NGenerator.prototype.buildFilesFromPackage = require('./buildFilesFromPackageJson');
+
+NGenerator.prototype.createGithubProject = require('./createGitHubProject');
 
 NGenerator.prototype.app = function app() {
 //  this.mkdir('app');
@@ -53,9 +55,3 @@ NGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 
-function getPackageJson() {
-  try {
-    return require(path.join(process.cwd(), '/package.json'));
-  }
-  catch (e) { /* package.json is missing. We'll have to run npm init */ }
-}
