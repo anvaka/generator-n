@@ -11,6 +11,7 @@ var settingsFileName = path.join(process.env.HOME || process.env.HOMEPATH || pro
 var NGenerator = module.exports = function NGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
   this.settings = new GeneratorSettings(settingsFileName);
+  this.project = {};
 };
 
 util.inherits(NGenerator, yeoman.generators.Base);

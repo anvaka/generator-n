@@ -5,25 +5,26 @@
   "keywords": [
     "yeoman-generator"
   ],
-  "homepage": "https://github.com/anvaka/generator-n",
-  "bugs": "https://github.com/anvaka/generator-n/issues",
-  "author": {
-    "name": "Andrei Kashcha",
-    "email": "anvaka@gmail.com",
-    "url": "https://github.com/anvaka"
-  },
   "main": "app/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/anvaka/generator-n.git"
   },
+  "homepage": "https://github.com/anvaka/generator-n",
+  "bugs": "https://github.com/anvaka/generator-n/issues",
   "scripts": {
     "test": "mocha"
+  },
+  "author": {
+    "name": "Andrei Kashcha",
+    "email": "anvaka@gmail.com",
+    "url": "https://github.com/anvaka"
   },
   "dependencies": {
     "yeoman-generator": "~0.14.0",
     "chalk": "~0.3.0",
-    "octonode": "~0.4.0"
+    "octonode": "~0.4.0",
+    "q": "~0.9.7"
   },
   "devDependencies": {
     "mocha": "~1.14.0"
