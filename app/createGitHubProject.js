@@ -81,6 +81,8 @@ function createGitHubProject(token) {
 
   this.log.info('Creating GitHub project "' + projectName + '"... ');
 
+  var self = this;
+
   var ghme = require('octonode').client(token).me();
   ghme.repo({
     "name": projectName,
@@ -89,7 +91,22 @@ function createGitHubProject(token) {
     // TODO: this should be more robust, in case when user revoked access toke
     // we should offer him way to restore it
     if (err) {
-      throw new Error('Failed to create GitHub project. GitHub responed with ' + err);
+      // can we recover from this error?
+      var unauthorized = err.statusCode === 401;
+      if (unauthorized) {
+        // let's remove current credentials:
+        self.settings.set('githubOAuth', undefined);
+        self.log.info('Could not authorize with github using your token. Have you revoked it?');
+        getToken(self)
+          .then(createGitHubProject.bind(self))
+          .then(function (repoName) {
+            deferred.resolve(repoName)
+          }, function (reason) {
+            deferred.reject(reason);
+          });
+      } else {
+        throw new Error('Failed to create GitHub project. GitHub responed with ' + err);
+      }
     } else {
       this.log.info('Repository ' + body.full_name + ' created.');
       deferred.resolve(body.full_name);
