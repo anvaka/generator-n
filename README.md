@@ -20,6 +20,9 @@ smart initializations, based on your package.json. This includes:
 * Include test dependency based on your `scripts/test` of package.json
 * Make initial commit to GitHub
 
+## Demo
+[YouTube screencast](http://www.youtube.com/watch?v=VKsmKs9DzsE) (1 minute 21 seconds long)
+
 ## Trivia
 Typing `yo n` is two times shorter than `npm init`
 
