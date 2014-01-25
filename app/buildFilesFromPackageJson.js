@@ -18,7 +18,7 @@ module.exports = function () {
 };
 
 function copyTemplates(packageJson) {
-  this.copy('.gitignore', '.gitignore');
+  this.copy('_.gitignore', '.gitignore');
   this.template('_readme.md', 'README.md');
 }
 
