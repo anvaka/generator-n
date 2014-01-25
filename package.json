@@ -1,6 +1,6 @@
 {
   "name": "generator-n",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Minimalistic node package generator",
   "keywords": [
     "yeoman-generator"
@@ -23,7 +23,7 @@
   "dependencies": {
     "yeoman-generator": "~0.14.0",
     "chalk": "~0.3.0",
-    "octonode": "~0.4.0",
+    "octonode": "0.4.1",
     "q": "~0.9.7"
   },
   "devDependencies": {
