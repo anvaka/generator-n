@@ -78,7 +78,7 @@ function createUnitTests(packageJson) {
 }
 
 function getDevDependcyFromScriptName(testScript) {
-  var framework = testScript.match(/^(tap|mocha|grunt|cake)\b/);
+  var framework = testScript.match(/^(tap|tape|mocha|grunt|cake)\b/);
   return framework && framework[1];
 }
 
